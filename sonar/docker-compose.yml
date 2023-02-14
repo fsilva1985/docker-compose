@@ -1,0 +1,16 @@
+version: "3"
+services:
+  sonar:
+    image: sonarqube
+    container_name: sonar
+    ports:
+      - 9000:9000
+      - 9002:9002
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_logs:/opt/sonarqube/logs
+      - sonar_extensions:/opt/sonarqube/extensions
+volumes:
+ sonar_data:
+ sonar_logs:
+ sonar_extensions:
