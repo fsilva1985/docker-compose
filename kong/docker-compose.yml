@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  db:
+    image: postgres:9.5
+    environment:
+      POSTGRES_DB: kong
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+    networks:
+      - kong-net
+    volumes:
+      - db-data:/var/lib/postgresql/data
   kong-migrations:
     image: "kong:2.3.2-alpine"
     command: kong migrations bootstrap
@@ -41,15 +51,6 @@ services:
       - "127.0.0.1:8001:8001/tcp"
       - "8443:8443/tcp"
       - "127.0.0.1:8444:8444/tcp"
-    
-  db:
-    image: postgres:9.5
-    environment:
-      POSTGRES_DB: kong
-      POSTGRES_USER: kong
-      POSTGRES_PASSWORD: kong
-    networks:
-      - kong-net
 
   konga:
     container_name: konga
@@ -70,6 +71,8 @@ services:
     ports:
       - "1337:1337"
 
+volumes:
+  db-data:
 networks:
   kong-net:
     driver: bridge
