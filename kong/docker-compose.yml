@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   kong-migrations:
@@ -15,28 +15,6 @@ services:
       KONG_PG_USER: kong
     networks:
       - kong-net
-    
-    deploy:
-      restart_policy:
-        condition: on-failure
-
-  kong-migrations-up:
-    image: "kong:2.3.2-alpine"
-    command: kong migrations up && kong migrations finish
-    restart: on-failure
-    depends_on:
-      - db
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_DATABASE: kong
-      KONG_PG_HOST: db
-      KONG_PG_PASSWORD: kong
-      KONG_PG_USER: kong
-    networks:
-      - kong-net
-    deploy:
-      restart_policy:
-        condition: on-failure
 
   kong:
     image: "kong:2.3.2-alpine"
@@ -63,14 +41,6 @@ services:
       - "127.0.0.1:8001:8001/tcp"
       - "8443:8443/tcp"
       - "127.0.0.1:8444:8444/tcp"
-    healthcheck:
-      test: ["CMD", "kong", "health"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
-    deploy:
-      restart_policy:
-        condition: on-failure
     
   db:
     image: postgres:9.5
@@ -78,17 +48,6 @@ services:
       POSTGRES_DB: kong
       POSTGRES_USER: kong
       POSTGRES_PASSWORD: kong
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "kong"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    restart: on-failure
-    deploy:
-      restart_policy:
-        condition: on-failure
-    stdin_open: true
-    tty: true
     networks:
       - kong-net
 
