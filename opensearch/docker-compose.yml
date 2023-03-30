@@ -4,13 +4,13 @@ services:
     image: opensearchproject/opensearch:2.3.0
     container_name: opensearch
     ports:
-      - 9201:9200
+      - 9200:9200
     environment:
       - "DISABLE_SECURITY_PLUGIN=true"
       - discovery.type=single-node
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
+      - data:/usr/share/opensearch/data
     ulimits:
       memlock:
         soft: -1
@@ -19,4 +19,4 @@ services:
         soft: 65536
         hard: 65536
 volumes:
-  opensearch-data:
+  data:
