@@ -1,7 +1,16 @@
 version: "3"
 services:
-  postgres:
+  redis:
     image: redis
     container_name: redis
     ports:
       - 6379:6379
+  phpcacheadmin:
+    image: robinn/phpcacheadmin
+    ports:
+      - "8005:80"
+    environment:
+      - PCA_REDIS_0_HOST=redis
+      - PCA_REDIS_0_PORT=6379
+    links:
+      - redis
