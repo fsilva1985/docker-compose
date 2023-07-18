@@ -5,12 +5,17 @@ services:
     container_name: redis
     ports:
       - 6379:6379
-  phpcacheadmin:
-    image: robinn/phpcacheadmin
+    volumes:
+      - redis:/data
+  insight:
+    image: redislabs/redisinsight
+    container_name: insight
     ports:
-      - "8005:80"
-    environment:
-      - PCA_REDIS_0_HOST=redis
-      - PCA_REDIS_0_PORT=6379
+      - "8001:8001"
+    volumes:
+      - insight:/db
     links:
       - redis
+volumes:
+  redis:
+  insight:
