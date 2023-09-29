@@ -1,7 +1,7 @@
 version: "3"
 services:
   sonar:
-    image: sonarqube
+    image: sonarqube:9.8.0-community
     container_name: sonar
     ports:
       - 9000:9000

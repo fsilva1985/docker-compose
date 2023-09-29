@@ -1,0 +1,13 @@
+version: '3'
+services:
+  sidekiq_web:
+    image: aschzero/sidekiq-web
+    environment:
+      REDIS_URL: redis://redis-sidekiq:6379
+    ports:
+      - 3030:3030
+    depends_on:
+      - redis-sidekiq
+  redis-sidekiq:
+    image: redis
+    container_name: redis-sidekiq
